@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sample_project/pages/about_page.dart';
 import 'package:sample_project/pages/home_page.dart';
 import 'package:sample_project/pages/extra_page1.dart';
+import 'package:sample_project/pages/page2.dart';
 import 'package:sample_project/pages/page3.dart';
 import 'package:sample_project/pages/page4.dart';
 
@@ -12,17 +13,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const appTitle = 'League';
+  static const appTitle = 'Pokedex';
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: appTitle, home: MainApp(title: appTitle));
+    return MaterialApp(
+      title: appTitle,
+      home: MainApp(title: appTitle)
+    );
   }
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key, required this.title});
+  const MainApp({ super.key, required this.title });
 
   final String title;
 
@@ -36,12 +40,10 @@ class _MainAppState extends State<MainApp> {
   // ROUTER
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(), // 0
-    AboutPage(), // 1
-    ExtraPage1(), // 2
-    Text('Extra page 2'), // 3
-    Page3(), // 4
-    // Text('Extra page 4'), // 5
-    Page4()
+    ExtraPage1(), // 1
+    Page2(), // 2
+    Page3(), // 3
+    Page4() // 4
   ];
 
   void _onItemTapped(int index) {
@@ -55,24 +57,26 @@ class _MainAppState extends State<MainApp> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        leading: Builder(builder: (context) {
-          return IconButton(
-              onPressed: () {
+        leading: Builder(
+            builder: (context) {
+              return IconButton(onPressed: () {
                 Scaffold.of(context).openDrawer();
-              },
-              icon: Icon(Icons.menu));
-        }),
+              }, icon: Icon(Icons.menu));
+            }),
       ),
-      body: Center(child: _widgetOptions[_selectedIndex]),
+      body: Center(
+        child: _widgetOptions[_selectedIndex]
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text('Sample App')),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(widget.title)
+            ),
             ListTile(
               title: Text('Home page'),
               selected: _selectedIndex == 0,
@@ -82,7 +86,7 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('About page'),
+              title: Text('Extra page 1'),
               selected: _selectedIndex == 1,
               onTap: () {
                 _onItemTapped(1);
@@ -90,7 +94,7 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('Extra page 1'),
+              title: Text('Extra page 2'),
               selected: _selectedIndex == 2,
               onTap: () {
                 _onItemTapped(2);
@@ -98,18 +102,10 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('Extra page 2'),
+              title: Text('Extra page 3'),
               selected: _selectedIndex == 3,
               onTap: () {
                 _onItemTapped(3);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Extra page 3'),
-              selected: _selectedIndex == 4,
-              onTap: () {
-                _onItemTapped(4);
                 Navigator.pop(context);
               },
             ),
@@ -118,14 +114,6 @@ class _MainAppState extends State<MainApp> {
               selected: _selectedIndex == 4,
               onTap: () {
                 _onItemTapped(4);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Page #4'),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                _onItemTapped(5);
                 Navigator.pop(context);
               },
             ),

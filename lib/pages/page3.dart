@@ -59,7 +59,7 @@ class Page3 extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Container(
-                height: 550, // Static height
+                height: 250, // Static height
                 width: double
                     .infinity, // Connects to the whole screen with margins
                 margin: const EdgeInsets.symmetric(horizontal: 10),

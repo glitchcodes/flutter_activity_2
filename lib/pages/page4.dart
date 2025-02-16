@@ -114,10 +114,8 @@ class _Page4State extends State<Page4> {
                   });
                 },
                 child: Row(
-                  mainAxisSize:
-                      MainAxisSize.min, // Makes the button wrap its content
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Centers the row content
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       width: 30,
