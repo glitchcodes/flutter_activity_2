@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
-class Page4 extends StatelessWidget {
+const errorMessages = {
+  "emailField": {"noMatch": "No account matches these credentials."}
+};
+
+class Page4 extends StatefulWidget {
   const Page4({super.key});
+
+  @override
+  State<Page4> createState() => _Page4State();
+}
+
+class _Page4State extends State<Page4> {
+  bool rememberMe = false;
+  String email = "";
+  String password = "";
+  var errors = {"emailError": "", "passwordError": ""};
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +50,43 @@ class Page4 extends StatelessWidget {
                 // separator
                 height: 20,
               ),
-              const TextField(
+              TextField(
                 decoration: InputDecoration(labelText: "Email"),
+                onChanged: (value) => {
+                  setState(() {
+                    email = value;
+                  })
+                },
+              ),
+              Text(
+                errors["emailError"] ?? "",
+                // "test",
+                style: TextStyle(color: Colors.red),
               ),
               SizedBox(
                 // separator
-                height: 15,
+                height: 5,
               ),
               const TextField(
                 obscureText: true,
                 decoration: InputDecoration(labelText: "Password"),
+              ),
+              SizedBox(
+                // separator
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Remember Me:"),
+                  Switch(
+                      value: rememberMe,
+                      onChanged: (value) {
+                        setState(() {
+                          rememberMe = !rememberMe;
+                        });
+                      })
+                ],
               ),
               const SizedBox(
                 // separator
@@ -66,7 +107,12 @@ class Page4 extends StatelessWidget {
                 height: 40,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    errors["emailError"] =
+                        errorMessages["emailField"]?["noMatch"] ?? "";
+                  });
+                },
                 child: Row(
                   mainAxisSize:
                       MainAxisSize.min, // Makes the button wrap its content
@@ -79,14 +125,16 @@ class Page4 extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: const DecorationImage(
-                          image: AssetImage('assets/4.png'),
+                          image: AssetImage('assets/pokeball-1.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                        width: 8), // Add spacing between icon and text
-                    const Text("Login"),
+                    const SizedBox(width: 8),
+                    const Text(
+                      "Login",
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ],
                 ),
               )
