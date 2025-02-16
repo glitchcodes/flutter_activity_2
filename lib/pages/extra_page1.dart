@@ -1,5 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:sample_project/main.dart'; // Import your main.dart file
+class BoxedText extends StatelessWidget { //boxedtext class 2 box da damn tings
+  final String text;
+  const BoxedText(this.text, {super.key});
 
+  @override
+  //container stuff for da box
+  Widget build(BuildContext context) {
+    return Container( //css stuff
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Light background
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.black, width: 1),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 20),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
 class ExtraPage1 extends StatelessWidget {
   const ExtraPage1({super.key});
 
@@ -30,14 +53,14 @@ class ExtraPage1 extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BoxedText('First box'),
+                    BoxedText('You are'),
                     SizedBox(width: 10), // Space between boxes
-                    BoxedText('Second box'),
+                    BoxedText('GAY'),
                   ],
                 ),
 
-                BoxedText('Here is some additional text to extend the paragraph and make it more complete.'),
-                BoxedText('Sample text and sample paragraph written by Johann the goat yee.'),
+                BoxedText('Mark is big badiing.'),
+                BoxedText('Ang pogi ko.'),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -72,11 +95,13 @@ class ExtraPage1 extends StatelessWidget {
                 const SizedBox(width: 10), // Space between buttons
                 ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Wala tong ginagawa')),
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()), // Redirect to Main
+                          (route) => false, // Clears navigation stack
                     );
                   },
-                  child: const Text('Back'),
+                  child: const Text('Back 2 home'),
                 ),
               ],
             ),
@@ -87,25 +112,3 @@ class ExtraPage1 extends StatelessWidget {
   }
 }
 
-class BoxedText extends StatelessWidget { //boxedtext class 2 box da damn tings
-  final String text;
-  const BoxedText(this.text, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container( //css stuff
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey[200], // Light background
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black, width: 1),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 20),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-}
