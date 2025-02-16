@@ -40,11 +40,10 @@ class _MainAppState extends State<MainApp> {
   // ROUTER
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(), // 0
-    AboutPage(), // 1
-    ExtraPage1(), // 2
-    Page2(), // 3
-    Page3(), // 4
-    Page4() // 5
+    ExtraPage1(), // 1
+    Page2(), // 2
+    Page3(), // 3
+    Page4() // 4
   ];
 
   void _onItemTapped(int index) {
@@ -87,7 +86,7 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('About page'),
+              title: Text('Extra page 1'),
               selected: _selectedIndex == 1,
               onTap: () {
                 _onItemTapped(1);
@@ -95,7 +94,7 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('Extra page 1'),
+              title: Text('Extra page 2'),
               selected: _selectedIndex == 2,
               onTap: () {
                 _onItemTapped(2);
@@ -103,7 +102,7 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('Extra page 2'),
+              title: Text('Extra page 3'),
               selected: _selectedIndex == 3,
               onTap: () {
                 _onItemTapped(3);
@@ -111,26 +110,10 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('Extra page 3'),
+              title: Text('Extra page 4'),
               selected: _selectedIndex == 4,
               onTap: () {
                 _onItemTapped(4);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Extra page 4'),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                _onItemTapped(5);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Page #4'),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                _onItemTapped(5);
                 Navigator.pop(context);
               },
             ),
