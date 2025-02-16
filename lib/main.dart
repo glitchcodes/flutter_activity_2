@@ -11,7 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const appTitle = 'League';
+  static const appTitle = 'Pokedex';
 
   // This widget is the root of your application.
   @override
@@ -74,7 +74,7 @@ class _MainAppState extends State<MainApp> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Sample App')
+              child: Text(widget.title)
             ),
             ListTile(
               title: Text('Home page'),
