@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_project/pages/about_page.dart';
 import 'package:sample_project/pages/home_page.dart';
+import 'package:sample_project/pages/extra_page1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,9 +38,10 @@ class _MainAppState extends State<MainApp> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(), // 0
     AboutPage(), // 1
-    Text('Extra page 1'), // 2
+    ExtraPage1(), // 2
     Text('Extra page 2'), // 3
-    Text('Extra page 2'), // 4
+    Text('Extra page 3'), // 4
+    Text('Extra page 4'), // 5
   ];
 
   void _onItemTapped(int index) {
