@@ -12,7 +12,7 @@ class AboutPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  "Tite",
+                  "About page",
                   style: TextStyle(
                       fontSize: 30
                   )
