@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sample_project/pages/about_page.dart';
 import 'package:sample_project/pages/home_page.dart';
 import 'package:sample_project/pages/extra_page1.dart';
+import 'package:sample_project/pages/page3.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +41,7 @@ class _MainAppState extends State<MainApp> {
     AboutPage(), // 1
     ExtraPage1(), // 2
     Text('Extra page 2'), // 3
-    Text('Extra page 3'), // 4
+    Page3(), // 4
     Text('Extra page 4'), // 5
   ];
 
