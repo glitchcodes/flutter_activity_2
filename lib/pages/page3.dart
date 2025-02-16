@@ -9,10 +9,15 @@ class Page3 extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40), // Adds margin for balance
+        padding: const EdgeInsets.symmetric(
+            horizontal: 20, vertical: 40), // Adds margin for balance
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF2C5364), Color(0xFF203A43), Color(0xFF0F2027)], // Gradient background
+            colors: [
+              Color(0xFF2C5364),
+              Color(0xFF203A43),
+              Color(0xFF0F2027)
+            ], // Gradient background
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -55,7 +60,8 @@ class Page3 extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               child: Container(
                 height: 550, // Static height
-                width: double.infinity, // Connects to the whole screen with margins
+                width: double
+                    .infinity, // Connects to the whole screen with margins
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -104,8 +110,9 @@ class Page3 extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => MyApp()), // Redirect to Main
-                        (route) => false, // Clears navigation stack
+                    MaterialPageRoute(
+                        builder: (context) => MyApp()), // Redirect to Main
+                    (route) => false, // Clears navigation stack
                   );
                 },
                 style: ElevatedButton.styleFrom(
