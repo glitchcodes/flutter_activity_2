@@ -3,6 +3,7 @@ import 'package:sample_project/pages/about_page.dart';
 import 'package:sample_project/pages/home_page.dart';
 import 'package:sample_project/pages/extra_page1.dart';
 import 'package:sample_project/pages/page3.dart';
+import 'package:sample_project/pages/page4.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,15 +17,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appTitle,
-      home: MainApp(title: appTitle)
-    );
+    return MaterialApp(title: appTitle, home: MainApp(title: appTitle));
   }
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({ super.key, required this.title });
+  const MainApp({super.key, required this.title});
 
   final String title;
 
@@ -42,7 +40,8 @@ class _MainAppState extends State<MainApp> {
     ExtraPage1(), // 2
     Text('Extra page 2'), // 3
     Page3(), // 4
-    Text('Extra page 4'), // 5
+    // Text('Extra page 4'), // 5
+    Page4()
   ];
 
   void _onItemTapped(int index) {
@@ -56,26 +55,24 @@ class _MainAppState extends State<MainApp> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        leading: Builder(
-            builder: (context) {
-              return IconButton(onPressed: () {
+        leading: Builder(builder: (context) {
+          return IconButton(
+              onPressed: () {
                 Scaffold.of(context).openDrawer();
-              }, icon: Icon(Icons.menu));
-            }),
+              },
+              icon: Icon(Icons.menu));
+        }),
       ),
-      body: Center(
-        child: _widgetOptions[_selectedIndex]
-      ),
+      body: Center(child: _widgetOptions[_selectedIndex]),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Sample App')
-            ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Sample App')),
             ListTile(
               title: Text('Home page'),
               selected: _selectedIndex == 0,
@@ -121,6 +118,14 @@ class _MainAppState extends State<MainApp> {
               selected: _selectedIndex == 4,
               onTap: () {
                 _onItemTapped(4);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Page #4'),
+              selected: _selectedIndex == 5,
+              onTap: () {
+                _onItemTapped(5);
                 Navigator.pop(context);
               },
             ),
