@@ -65,7 +65,31 @@ class Page4 extends StatelessWidget {
                 // separator
                 height: 40,
               ),
-              ElevatedButton(onPressed: () {}, child: const Text("Login"))
+              ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisSize:
+                      MainAxisSize.min, // Makes the button wrap its content
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // Centers the row content
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: const DecorationImage(
+                          image: AssetImage('assets/4.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                        width: 8), // Add spacing between icon and text
+                    const Text("Login"),
+                  ],
+                ),
+              )
             ],
           ),
         ),
