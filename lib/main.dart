@@ -4,6 +4,7 @@ import 'package:sample_project/pages/home_page.dart';
 import 'package:sample_project/pages/extra_page1.dart';
 import 'package:sample_project/pages/page2.dart';
 import 'package:sample_project/pages/page3.dart';
+import 'package:sample_project/pages/page4.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +41,8 @@ class _MainAppState extends State<MainApp> {
     ExtraPage1(), // 2
     Page2(), // 3
     Page3(), // 4
-    Text('Extra page 4'), // 5
+    // Text('Extra page 4'), // 5
+    Page4()
   ];
 
   void _onItemTapped(int index) {
@@ -114,6 +116,14 @@ class _MainAppState extends State<MainApp> {
             ),
             ListTile(
               title: Text('Extra page 4'),
+              selected: _selectedIndex == 5,
+              onTap: () {
+                _onItemTapped(5);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Page #4'),
               selected: _selectedIndex == 5,
               onTap: () {
                 _onItemTapped(5);
