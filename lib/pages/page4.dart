@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const errorMessages = {
+  "emptyField": "Required",
   "emailField": {"noMatch": "No account matches these credentials."}
 };
 
@@ -16,6 +17,28 @@ class _Page4State extends State<Page4> {
   String email = "";
   String password = "";
   var errors = {"emailError": "", "passwordError": ""};
+
+  void clearErrors() {
+    errors["emailError"] = "";
+    errors["passwordError"] = "";
+  }
+
+  void attemptLogin() {
+    setState(() {
+      if (email.isEmpty || password.isEmpty) {
+        errors["emailError"] =
+            email.isEmpty ? errorMessages["emptyField"] as String : "";
+
+        errors["passwordError"] =
+            password.isEmpty ? errorMessages["emptyField"] as String : "";
+
+        return;
+      }
+      clearErrors();
+      errors["emailError"] =
+          (errorMessages["emailField"] as Map<String, String>)["noMatch"] ?? "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +81,32 @@ class _Page4State extends State<Page4> {
                   })
                 },
               ),
-              Text(
-                errors["emailError"] ?? "",
-                // "test",
-                style: TextStyle(color: Colors.red),
+              Visibility(
+                visible: errors["emailError"]!.isNotEmpty,
+                child: Text(
+                  errors["emailError"]!,
+                  style: const TextStyle(color: Colors.red),
+                ),
               ),
               SizedBox(
                 // separator
-                height: 5,
+                height: 10,
               ),
-              const TextField(
+              TextField(
                 obscureText: true,
                 decoration: InputDecoration(labelText: "Password"),
+                onChanged: (value) => {
+                  setState(() {
+                    password = value;
+                  })
+                },
+              ),
+              Visibility(
+                visible: errors["passwordError"]!.isNotEmpty,
+                child: Text(
+                  errors["passwordError"]!,
+                  style: const TextStyle(color: Colors.red),
+                ),
               ),
               SizedBox(
                 // separator
@@ -107,12 +144,7 @@ class _Page4State extends State<Page4> {
                 height: 40,
               ),
               ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    errors["emailError"] =
-                        errorMessages["emailField"]?["noMatch"] ?? "";
-                  });
-                },
+                onPressed: attemptLogin,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
