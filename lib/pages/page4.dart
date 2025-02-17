@@ -1,7 +1,58 @@
 import 'package:flutter/material.dart';
 
-class Page4 extends StatelessWidget {
+const errorMessages = {
+  "emptyField": "Required",
+  "emailField": {"noMatch": "No account matches these credentials."}
+};
+
+const initialData = {
+  "email": "example@test.com",
+  "password": "password",
+  "rememberMe": true
+};
+
+class Page4 extends StatefulWidget {
   const Page4({super.key});
+
+  @override
+  State<Page4> createState() => _Page4State();
+}
+
+class _Page4State extends State<Page4> {
+  bool rememberMe = false;
+  String email = "";
+  String password = "";
+  var errors = {"emailError": "", "passwordError": ""};
+
+  @override
+  void initState() {
+    super.initState();
+    email = initialData["email"] as String;
+    password = initialData["password"] as String;
+    rememberMe = initialData["rememberMe"] as bool;
+  }
+
+  void clearErrors() {
+    errors["emailError"] = "";
+    errors["passwordError"] = "";
+  }
+
+  void attemptLogin() {
+    setState(() {
+      if (email.isEmpty || password.isEmpty) {
+        errors["emailError"] =
+            email.isEmpty ? errorMessages["emptyField"] as String : "";
+
+        errors["passwordError"] =
+            password.isEmpty ? errorMessages["emptyField"] as String : "";
+
+        return;
+      }
+      clearErrors();
+      errors["emailError"] =
+          (errorMessages["emailField"] as Map<String, String>)["noMatch"] ?? "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
