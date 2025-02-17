@@ -5,6 +5,12 @@ const errorMessages = {
   "emailField": {"noMatch": "No account matches these credentials."}
 };
 
+const initialData = {
+  "email": "example@test.com",
+  "password": "password",
+  "rememberMe": true
+};
+
 class Page4 extends StatefulWidget {
   const Page4({super.key});
 
@@ -17,6 +23,14 @@ class _Page4State extends State<Page4> {
   String email = "";
   String password = "";
   var errors = {"emailError": "", "passwordError": ""};
+
+  @override
+  void initState() {
+    super.initState();
+    email = initialData["email"] as String;
+    password = initialData["password"] as String;
+    rememberMe = initialData["rememberMe"] as bool;
+  }
 
   void clearErrors() {
     errors["emailError"] = "";
