@@ -9,11 +9,11 @@ class ExtraPage1 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '',
+          'Register New SCP',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF000000), // Dark background
+        backgroundColor: const Color(0xFF1C1C1C), // Dark background
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -28,10 +28,10 @@ class ExtraPage1 extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
-          child: Form(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 20), // Add padding to the bottom
+          child: Padding(
+            padding:
+                const EdgeInsets.only(bottom: 20), // Add padding to the bottom
+            child: Form(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +39,7 @@ class ExtraPage1 extends StatelessWidget {
                   const SizedBox(height: 20),
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('assets/logo.png'),
+                    backgroundImage: AssetImage('assets/4.png'),
                   ),
                   const SizedBox(height: 20),
                   Padding(
