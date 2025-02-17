@@ -13,20 +13,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const appTitle = 'Pokedex';
+  static const appTitle = 'SCP Foundation';
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appTitle,
-      home: MainApp(title: appTitle)
-    );
+    return MaterialApp(title: appTitle, home: MainApp(title: appTitle));
   }
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({ super.key, required this.title });
+  const MainApp({super.key, required this.title});
 
   final String title;
 
@@ -56,68 +53,84 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        leading: Builder(
-            builder: (context) {
-              return IconButton(onPressed: () {
+        title: Text(""),
+        backgroundColor: Colors.black,
+        leading: Builder(builder: (context) {
+          return IconButton(
+              onPressed: () {
                 Scaffold.of(context).openDrawer();
-              }, icon: Icon(Icons.menu));
-            }),
+              },
+              icon: Icon(Icons.menu, color: Colors.white)); // Change color here
+        }),
+        iconTheme: IconThemeData(color: Colors.white), // Change color here
       ),
-      body: Center(
-        child: _widgetOptions[_selectedIndex]
-      ),
+      body: Center(child: _widgetOptions[_selectedIndex]),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF000000), // Black
+                Color(0xFF8B0000), // Dark Red
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/scp.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Text("", style: TextStyle(color: Colors.white)),
               ),
-              child: Text(widget.title)
-            ),
-            ListTile(
-              title: Text('Home page'),
-              selected: _selectedIndex == 0,
-              onTap: () {
-                _onItemTapped(0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Extra page 1'),
-              selected: _selectedIndex == 1,
-              onTap: () {
-                _onItemTapped(1);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Extra page 2'),
-              selected: _selectedIndex == 2,
-              onTap: () {
-                _onItemTapped(2);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Extra page 3'),
-              selected: _selectedIndex == 3,
-              onTap: () {
-                _onItemTapped(3);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Extra page 4'),
-              selected: _selectedIndex == 4,
-              onTap: () {
-                _onItemTapped(4);
-                Navigator.pop(context);
-              },
-            ),
-          ],
+              ListTile(
+                title: Text('Report',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                selected: _selectedIndex == 1,
+                onTap: () {
+                  _onItemTapped(1);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('SCP-420',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                selected: _selectedIndex == 2,
+                onTap: () {
+                  _onItemTapped(2);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('SCP-069',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                selected: _selectedIndex == 3,
+                onTap: () {
+                  _onItemTapped(3);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text('Login',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                selected: _selectedIndex == 4,
+                onTap: () {
+                  _onItemTapped(4);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
