@@ -18,15 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appTitle,
-      home: MainApp(title: appTitle)
-    );
+    return MaterialApp(title: appTitle, home: MainApp(title: appTitle));
   }
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({ super.key, required this.title });
+  const MainApp({super.key, required this.title});
 
   final String title;
 
@@ -57,26 +54,24 @@ class _MainAppState extends State<MainApp> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        leading: Builder(
-            builder: (context) {
-              return IconButton(onPressed: () {
+        leading: Builder(builder: (context) {
+          return IconButton(
+              onPressed: () {
                 Scaffold.of(context).openDrawer();
-              }, icon: Icon(Icons.menu));
-            }),
+              },
+              icon: Icon(Icons.menu));
+        }),
       ),
-      body: Center(
-        child: _widgetOptions[_selectedIndex]
-      ),
+      body: Center(child: _widgetOptions[_selectedIndex]),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(widget.title)
-            ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(widget.title)),
             ListTile(
               title: Text('Home page'),
               selected: _selectedIndex == 0,
@@ -110,7 +105,8 @@ class _MainAppState extends State<MainApp> {
               },
             ),
             ListTile(
-              title: Text('Extra page 4'),
+              title: Text('Login'),
+              leading: Icon(Icons.login),
               selected: _selectedIndex == 4,
               onTap: () {
                 _onItemTapped(4);
