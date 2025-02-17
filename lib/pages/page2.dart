@@ -25,7 +25,7 @@ class Page2 extends StatelessWidget {
                   0.8, // Set the width to 80% of the screen width
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.1,
-                  vertical: 40),
+                  vertical: 120),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
