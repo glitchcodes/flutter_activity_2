@@ -1,15 +1,5 @@
 import 'package:flutter/material.dart';
-
-const errorMessages = {
-  "emptyField": "Required",
-  "emailField": {"noMatch": "No account matches these credentials."}
-};
-
-const initialData = {
-  "email": "example@test.com",
-  "password": "password",
-  "rememberMe": true
-};
+import 'package:sample_project/utils.dart';
 
 class Page4 extends StatefulWidget {
   const Page4({super.key});
@@ -20,38 +10,44 @@ class Page4 extends StatefulWidget {
 
 class _Page4State extends State<Page4> {
   bool rememberMe = false;
-  String email = "";
-  String password = "";
-  var errors = {"emailError": "", "passwordError": ""};
+  String? _emailError;
+  String? _passwordError;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    email = initialData["email"] as String;
-    password = initialData["password"] as String;
-    rememberMe = initialData["rememberMe"] as bool;
-  }
-
-  void clearErrors() {
-    errors["emailError"] = "";
-    errors["passwordError"] = "";
-  }
-
-  void attemptLogin() {
+  void _clearErrors() {
     setState(() {
-      if (email.isEmpty || password.isEmpty) {
-        errors["emailError"] =
-            email.isEmpty ? errorMessages["emptyField"] as String : "";
-
-        errors["passwordError"] =
-            password.isEmpty ? errorMessages["emptyField"] as String : "";
-
-        return;
-      }
-      clearErrors();
-      errors["emailError"] =
-          (errorMessages["emailField"] as Map<String, String>)["noMatch"] ?? "";
+      _emailError = null;
+      _passwordError = null;
     });
+  }
+
+  void _login() {
+    _clearErrors();
+
+    try {
+      bool isAuthenticated =
+          Login.authenticate(_emailController.text, _passwordController.text);
+
+      if (isAuthenticated) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login Success"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } on LoginException catch (e) {
+      setState(() {
+        _emailError = e.errors['email']?.isNotEmpty == true
+            ? "\u00A0${e.errors['email']![0]}\u00A0"
+            : null;
+        _passwordError = e.errors['password']?.isNotEmpty == true
+            ? "\u00A0${e.errors['password']![0]}\u00A0"
+            : null;
+      });
+    }
   }
 
   @override
@@ -61,8 +57,8 @@ class _Page4State extends State<Page4> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF000000), // Black
-              Color(0xFF8B0000), // Dark Red
+              Color(0xFF000000),
+              Color(0xFF8B0000),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -102,31 +98,75 @@ class _Page4State extends State<Page4> {
                   // separator
                   height: 20,
                 ),
-                const TextField(
+                TextFormField(
+                  maxLength: 255,
+                  controller: _emailController,
+                  onChanged: (value) {
+                    _clearErrors();
+                  },
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    labelText: "Email",
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
+                      labelText: "Email",
+                      labelStyle: TextStyle(color: Colors.white),
+                      suffixIcon: _emailController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                _emailController.clear();
+                                _clearErrors();
+                              },
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Colors.white,
+                              ))
+                          : null,
+                      errorText: _emailError,
+                      errorStyle: TextStyle(
+                          backgroundColor: Colors.white, color: Colors.red)),
                 ),
                 const SizedBox(
                   // separator
                   height: 15,
                 ),
-                const TextField(
+                TextFormField(
+                  maxLength: 255,
+                  controller: _passwordController,
                   obscureText: true,
+                  onChanged: (value) {
+                    _clearErrors();
+                  },
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    labelText: "Password",
-                    labelStyle: TextStyle(color: Colors.white),
-                  ),
+                      labelText: "Password",
+                      labelStyle: TextStyle(color: Colors.white),
+                      suffixIcon: _passwordController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                _passwordController.clear();
+                                _clearErrors();
+                              },
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Colors.white,
+                              ))
+                          : null,
+                      errorText: _passwordError,
+                      errorStyle: TextStyle(
+                          backgroundColor: Colors.white, color: Colors.red)),
                 ),
                 const SizedBox(
                   // separator
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Page not yet implemented."),
+                        backgroundColor: Colors.red,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
                   child: const Text(
                     "Forgot Password?",
                     textAlign: TextAlign.right,
@@ -140,7 +180,9 @@ class _Page4State extends State<Page4> {
                   height: 40,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _login();
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black, // Black background
                     padding: const EdgeInsets.symmetric(vertical: 15),

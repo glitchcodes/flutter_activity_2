@@ -60,9 +60,9 @@ class _MainAppState extends State<MainApp> {
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
-              icon: Icon(Icons.menu, color: Colors.white)); // Change color here
+              icon: Icon(Icons.menu, color: Colors.white));
         }),
-        iconTheme: IconThemeData(color: Colors.white), // Change color here
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Center(child: _widgetOptions[_selectedIndex]),
       drawer: Drawer(
@@ -70,8 +70,8 @@ class _MainAppState extends State<MainApp> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF000000), // Black
-                Color(0xFF8B0000), // Dark Red
+                Color(0xFF000000),
+                Color(0xFF8B0000),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
