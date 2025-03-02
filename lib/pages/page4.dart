@@ -15,6 +15,8 @@ class _Page4State extends State<Page4> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isButtonDisabled = true;
+
   void _clearErrors() {
     setState(() {
       _emailError = null;
@@ -48,6 +50,30 @@ class _Page4State extends State<Page4> {
             : null;
       });
     }
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isButtonDisabled = _emailController.text.isEmpty || _passwordController.text.isEmpty;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    _emailController.removeListener(_updateButtonState);
+    _passwordController.removeListener(_updateButtonState);
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -180,9 +206,7 @@ class _Page4State extends State<Page4> {
                   height: 40,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    _login();
-                  },
+                  onPressed: _isButtonDisabled ? null : _login,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black, // Black background
                     padding: const EdgeInsets.symmetric(vertical: 15),
