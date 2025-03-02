@@ -1,16 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:sample_project/main.dart'; // Import your main.dart file
 
-class ExtraPage1 extends StatelessWidget {
+class ExtraPage1 extends StatefulWidget {
   const ExtraPage1({super.key});
+
+
+
+  @override
+  _ExtraPage1State createState() => _ExtraPage1State();
+}
+
+DateTime? _selectedDate;
+class _ExtraPage1State extends State<ExtraPage1> {
+
+
+  final _formKey = GlobalKey<FormState>();
+  final _scpNameController = TextEditingController();
+  final _scpClassController = TextEditingController();
+  final _containmentProceduresController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _locationController = TextEditingController();
+  final _dateOfDiscoveryController = TextEditingController();
+  final _possibleCasualtiesController = TextEditingController();
+  final _finalRemarksController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+        _dateOfDiscoveryController.text =
+        "${picked.toLocal()}".split(' ')[0]; // Format the date
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scpNameController.dispose();
+    _scpClassController.dispose();
+    _containmentProceduresController.dispose();
+    _descriptionController.dispose();
+    _locationController.dispose();
+    _dateOfDiscoveryController.dispose();
+    _possibleCasualtiesController.dispose();
+    _finalRemarksController.dispose();
+    super.dispose();
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      // If the form is valid, display a snackbar.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Processing Data')),
+      );
+      // Here you can process the form data, e.g., send it to a server.
+      print('SCP Name: ${_scpNameController.text}');
+      print('SCP Class: ${_scpClassController.text}');
+      print('Containment Procedures: ${_containmentProceduresController.text}');
+      print('Description: ${_descriptionController.text}');
+      print('Location: ${_locationController.text}');
+      print('Date of Discovery: ${_dateOfDiscoveryController.text}');
+      print('Possible Casualties: ${_possibleCasualtiesController.text}');
+      print('Final Remarks: ${_finalRemarksController.text}');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
       appBar: AppBar(
         title: const Text(
           'Register New SCP',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF1C1C1C), // Dark background
@@ -29,9 +100,9 @@ class ExtraPage1 extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding:
-                const EdgeInsets.only(bottom: 20), // Add padding to the bottom
+            padding: const EdgeInsets.only(bottom: 20),
             child: Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,287 +120,118 @@ class ExtraPage1 extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Row with a single text input
-                        SizedBox(
-                          width: double.infinity,
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 10), // Reduced padding
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2E2E2E), // Dark background
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.white, width: 1),
-                            ),
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter SCP Name',
-                                hintStyle: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                          ),
+                        // SCP Name
+                        _buildTextField(
+                          controller: _scpNameController,
+                          hintText: 'Enter SCP Name',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter SCP Name';
+                            }
+                            return null;
+                          },
                         ),
-
-                        // Row with a single text input
-                        SizedBox(
-                          width: double.infinity,
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 10), // Reduced padding
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2E2E2E), // Dark background
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.white, width: 1),
-                            ),
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter SCP Class',
-                                hintStyle: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                          ),
+                        // SCP Class
+                        _buildTextField(
+                          controller: _scpClassController,
+                          hintText: 'Enter SCP Class',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter SCP Class';
+                            }
+                            return null;
+                          },
                         ),
-
-                        // Row with 2 text inputs spaced between
+                        // Containment Procedures and Description
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10), // Reduced padding
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                      0xFF2E2E2E), // Dark background
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Colors.white, width: 1),
-                                ),
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Enter Containment Procedures',
-                                    hintStyle: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            _buildTextField(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              controller: _containmentProceduresController,
+                              hintText: 'Containment Procedures',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter Containment Procedures';
+                                }
+                                return null;
+                              },
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10), // Reduced padding
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                      0xFF2E2E2E), // Dark background
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Colors.white, width: 1),
-                                ),
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Enter Description',
-                                    hintStyle: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            _buildTextField(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              controller: _descriptionController,
+                              hintText: 'Description',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter Description';
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
-
-                        // Row with 3 text inputs spaced evenly
+                        // Location, Date of Discovery, Possible Casualties
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10), // Reduced padding
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                      0xFF2E2E2E), // Dark background
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Colors.white, width: 1),
-                                ),
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Enter Location',
-                                    hintStyle: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            _buildTextField(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              controller: _locationController,
+                              hintText: 'Location',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter Location';
+                                }
+                                return null;
+                              },
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10), // Reduced padding
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                      0xFF2E2E2E), // Dark background
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Colors.white, width: 1),
-                                ),
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Enter Date of Discovery',
-                                    hintStyle: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            _buildDateTextField(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              controller: _dateOfDiscoveryController,
+                              hintText: 'Date of Discovery',
+                              onTap: () => _selectDate(context),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter Date of Discovery';
+                                }
+                                return null;
+                              },
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10), // Reduced padding
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                      0xFF2E2E2E), // Dark background
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Colors.white, width: 1),
-                                ),
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Enter Possible Casualties',
-                                    hintStyle: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            _buildTextField(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              controller: _possibleCasualtiesController,
+                              hintText: 'Possible Casualties',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter Possible Casualties';
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
-
-                        // Row with a single text input
-                        SizedBox(
-                          width: double.infinity,
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
+                        // Final Remarks
+                        _buildTextField(
+                          controller: _finalRemarksController,
+                          hintText: 'Final Remarks',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter Final Remarks';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: _submitForm,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red, // Button color
+                            foregroundColor: Colors.white, // Text color
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 10), // Reduced padding
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2E2E2E), // Dark background
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.white, width: 1),
-                            ),
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter Final Remarks',
-                                hintStyle: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
+                                horizontal: 30, vertical: 15),
+                            textStyle: const TextStyle(fontSize: 18),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.25,
-                        vertical: 50),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Submit Report')),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black, // Dark background
-                            ),
-                            child: const Text(
-                              'Submit Report',
-                              style:
-                                  TextStyle(color: Colors.white), // White text
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        MyApp()), // Redirect to Main
-                                (route) => false, // Clears navigation stack
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black, // Dark background
-                            ),
-                            child: const Text(
-                              'Home',
-                              style:
-                                  TextStyle(color: Colors.white), // White text
-                            ),
-                          ),
+                          child: const Text('Submit'),
                         ),
                       ],
                     ),
@@ -338,6 +240,77 @@ class ExtraPage1 extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget _buildDateTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required VoidCallback onTap,
+    required String? Function(String?) validator,
+    double width = double.infinity,
+  }) {
+    return SizedBox(
+      width: width,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2E2E2E),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white, width: 1),
+        ),
+        child: TextFormField(
+          controller: controller,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+            hintStyle: const TextStyle(
+              fontSize: 15,
+              color: Colors.white70,
+            ),
+          ),
+          validator: validator,
+          readOnly: true, // Prevents manual editing
+          onTap: onTap, // Opens the date picker
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required String? Function(String?) validator,
+    double width = double.infinity,
+  }) {
+    return SizedBox(
+      width: width,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2E2E2E),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white, width: 1),
+        ),
+        child: TextFormField(
+          controller: controller,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+            hintStyle: const TextStyle(
+              fontSize: 15,
+              color: Colors.white70,
+            ),
+          ),
+          validator: validator,
         ),
       ),
     );
