@@ -9,6 +9,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SizedBox.expand(
         child: Container(
+          width: double.infinity,
+          height: double.infinity,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [

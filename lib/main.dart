@@ -36,11 +36,12 @@ class _MainAppState extends State<MainApp> {
 
   // ROUTER
   static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(), // 0
+    HomePage(),
+    // 4// 0
     ExtraPage1(), // 1
     Page2(), // 2
-    Page3(), // 3
-    Page4() // 4
+    Page3(),
+    Page4(),//
   ];
 
   void _onItemTapped(int index) {
@@ -90,6 +91,16 @@ class _MainAppState extends State<MainApp> {
                 child: Text("", style: TextStyle(color: Colors.white)),
               ),
               ListTile(
+                title: Text('Login',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+                selected: _selectedIndex == 4,
+                onTap: () {
+                  _onItemTapped(4);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
                 title: Text('Report',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
@@ -119,16 +130,7 @@ class _MainAppState extends State<MainApp> {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
-                title: Text('Login',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                selected: _selectedIndex == 4,
-                onTap: () {
-                  _onItemTapped(4);
-                  Navigator.pop(context);
-                },
-              ),
+
             ],
           ),
         ),

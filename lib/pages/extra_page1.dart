@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sample_project/main.dart'; // Import your main.dart file
+import 'package:flutter/services.dart'; // Import for TextInputFormatter
+
 
 class ExtraPage1 extends StatefulWidget {
   const ExtraPage1({super.key});
@@ -87,6 +89,8 @@ class _ExtraPage1State extends State<ExtraPage1> {
         backgroundColor: const Color(0xFF1C1C1C), // Dark background
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -123,7 +127,9 @@ class _ExtraPage1State extends State<ExtraPage1> {
                         // SCP Name
                         _buildTextField(
                           controller: _scpNameController,
+
                           hintText: 'Enter SCP Name',
+                          maxLength: 255,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter SCP Name';
@@ -134,6 +140,7 @@ class _ExtraPage1State extends State<ExtraPage1> {
                         // SCP Class
                         _buildTextField(
                           controller: _scpClassController,
+                          maxLength: 255,
                           hintText: 'Enter SCP Class',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -147,6 +154,7 @@ class _ExtraPage1State extends State<ExtraPage1> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _buildTextField(
+                              maxLength: 255,
                               width: MediaQuery.of(context).size.width * 0.3,
                               controller: _containmentProceduresController,
                               hintText: 'Containment Procedures',
@@ -160,6 +168,7 @@ class _ExtraPage1State extends State<ExtraPage1> {
                             _buildTextField(
                               width: MediaQuery.of(context).size.width * 0.3,
                               controller: _descriptionController,
+                              maxLength: 255,
                               hintText: 'Description',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -176,6 +185,7 @@ class _ExtraPage1State extends State<ExtraPage1> {
                           children: [
                             _buildTextField(
                               width: MediaQuery.of(context).size.width * 0.2,
+                              maxLength: 255,
                               controller: _locationController,
                               hintText: 'Location',
                               validator: (value) {
@@ -201,6 +211,12 @@ class _ExtraPage1State extends State<ExtraPage1> {
                               width: MediaQuery.of(context).size.width * 0.2,
                               controller: _possibleCasualtiesController,
                               hintText: 'Possible Casualties',
+
+                              keyboardType: TextInputType.number, // Set the keyboard type
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                              ],
+
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter Possible Casualties';
@@ -210,17 +226,7 @@ class _ExtraPage1State extends State<ExtraPage1> {
                             ),
                           ],
                         ),
-                        // Final Remarks
-                        _buildTextField(
-                          controller: _finalRemarksController,
-                          hintText: 'Final Remarks',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Final Remarks';
-                            }
-                            return null;
-                          },
-                        ),
+
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: _submitForm,
@@ -266,6 +272,7 @@ class _ExtraPage1State extends State<ExtraPage1> {
         ),
         child: TextFormField(
           controller: controller,
+
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -283,12 +290,17 @@ class _ExtraPage1State extends State<ExtraPage1> {
     );
   }
 
+
   Widget _buildTextField({
     required TextEditingController controller,
     required String hintText,
     required String? Function(String?) validator,
     double width = double.infinity,
-  }) {
+    TextInputType? keyboardType,
+    List<TextInputFormatter>? inputFormatters,
+    int? maxLength, // Add this parameter
+  })
+  {
     return SizedBox(
       width: width,
       child: Container(
@@ -309,10 +321,14 @@ class _ExtraPage1State extends State<ExtraPage1> {
               fontSize: 15,
               color: Colors.white70,
             ),
+            counterText: "", // Hide the default counter text
           ),
           validator: validator,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          maxLength: maxLength, // Use the provided maxLength
+          maxLengthEnforcement: MaxLengthEnforcement.enforced, // Enforce the limit
         ),
       ),
     );
-  }
-}
+  }}
