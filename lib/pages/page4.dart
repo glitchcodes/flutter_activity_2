@@ -54,7 +54,8 @@ class _Page4State extends State<Page4> {
 
   void _updateButtonState() {
     setState(() {
-      _isButtonDisabled = _emailController.text.isEmpty || _passwordController.text.isEmpty;
+      _isButtonDisabled =
+          _emailController.text.isEmpty || _passwordController.text.isEmpty;
     });
   }
 
