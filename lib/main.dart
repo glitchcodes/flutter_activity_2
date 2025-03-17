@@ -73,22 +73,25 @@ class _MainAppState extends State<MainApp> {
       appBar: AppBar(
         title: Text(""),
         backgroundColor: Colors.black,
-        leading: _selectedIndex == 0 ? const SizedBox.shrink() : Builder(builder: (context) {
-          return IgnorePointer(
-            ignoring: _selectedIndex == 0,
-            child: IconButton(
-                onPressed: () {
-                  if (_selectedIndex != 0) {
-                    Scaffold.of(context).openDrawer();
-                  }
+        leading: _selectedIndex == 0
+            ? null
+            : Builder(
+                builder: (context) {
+                  return IgnorePointer(
+                    ignoring: _selectedIndex == 0,
+                    child: IconButton(
+                        onPressed: () {
+                          if (_selectedIndex != 0) {
+                            Scaffold.of(context).openDrawer();
+                          }
+                        },
+                        icon: Icon(Icons.menu,
+                            color: _selectedIndex == 0
+                                ? Colors.grey
+                                : Colors.white)),
+                  );
                 },
-                icon: Icon(Icons.menu,
-                    color: _selectedIndex == 0
-                        ? Colors.grey
-                        : Colors.white)),
-          );
-        },
-        ),
+              ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Center(child: _widgetOptions[_selectedIndex]),
