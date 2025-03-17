@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_project/utils.dart';
+import 'home_page.dart';
 
 class Page4 extends StatefulWidget {
   const Page4({super.key});
@@ -38,6 +39,12 @@ class _Page4State extends State<Page4> {
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
           ),
+        );
+
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
         );
       }
     } on LoginException catch (e) {

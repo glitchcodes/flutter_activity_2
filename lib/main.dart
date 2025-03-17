@@ -53,12 +53,12 @@ class _MainAppState extends State<MainApp> {
 
   // ROUTER
   static const List<Widget> _widgetOptions = <Widget>[
+    Page4(),
     HomePage(),
-    // 4// 0
-    ExtraPage1(), // 1
-    Page2(), // 2
-    Page3(),
-    Page4(), //
+    // // 4// 0
+    // ExtraPage1(), // 1
+    // Page2(), // 2
+    // Page3(),
   ];
 
   void _onItemTapped(int index) {
@@ -73,13 +73,22 @@ class _MainAppState extends State<MainApp> {
       appBar: AppBar(
         title: Text(""),
         backgroundColor: Colors.black,
-        leading: Builder(builder: (context) {
-          return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: Icon(Icons.menu, color: Colors.white));
-        }),
+        leading: _selectedIndex == 0 ? const SizedBox.shrink() : Builder(builder: (context) {
+          return IgnorePointer(
+            ignoring: _selectedIndex == 0,
+            child: IconButton(
+                onPressed: () {
+                  if (_selectedIndex != 0) {
+                    Scaffold.of(context).openDrawer();
+                  }
+                },
+                icon: Icon(Icons.menu,
+                    color: _selectedIndex == 0
+                        ? Colors.grey
+                        : Colors.white)),
+          );
+        },
+        ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Center(child: _widgetOptions[_selectedIndex]),
@@ -111,17 +120,27 @@ class _MainAppState extends State<MainApp> {
                 title: Text(_isAuthenticated ? 'Logout' : 'Login',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
-                selected: _selectedIndex == 4,
+                selected: _selectedIndex == 0,
                 onTap: () async {
                   if (_isAuthenticated) {
                     AuthService.logout();
                   }
-                  _onItemTapped(4);
+                  _onItemTapped(0);
                   Navigator.pop(context);
                 },
               ),
+              // ListTile(
+              //   title: Text('Report',
+              //       style: TextStyle(
+              //           color: Colors.white, fontWeight: FontWeight.bold)),
+              //   selected: _selectedIndex == 1,
+              //   onTap: () {
+              //     _onItemTapped(1);
+              //     Navigator.pop(context);
+              //   },
+              // ),
               ListTile(
-                title: Text('Report',
+                title: Text('SCP CRUD',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
                 selected: _selectedIndex == 1,
@@ -130,26 +149,26 @@ class _MainAppState extends State<MainApp> {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
-                title: Text('SCP-420',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                selected: _selectedIndex == 2,
-                onTap: () {
-                  _onItemTapped(2);
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('SCP-069',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                selected: _selectedIndex == 3,
-                onTap: () {
-                  _onItemTapped(3);
-                  Navigator.pop(context);
-                },
-              ),
+              // ListTile(
+              //   title: Text('SCP-420',
+              //       style: TextStyle(
+              //           color: Colors.white, fontWeight: FontWeight.bold)),
+              //   selected: _selectedIndex == 2,
+              //   onTap: () {
+              //     _onItemTapped(2);
+              //     Navigator.pop(context);
+              //   },
+              // ),
+              // ListTile(
+              //   title: Text('SCP-069',
+              //       style: TextStyle(
+              //           color: Colors.white, fontWeight: FontWeight.bold)),
+              //   selected: _selectedIndex == 3,
+              //   onTap: () {
+              //     _onItemTapped(3);
+              //     Navigator.pop(context);
+              //   },
+              // ),
             ],
           ),
         ),
