@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 import 'package:sample_project/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,7 +81,8 @@ class AuthService {
   }
 
   /// Simualting login using tokens
-  static Future<bool> login(String email, String password) async {
+  static Future<bool> login(String email, String password,
+      {VoidCallback? onSuccess}) async {
     try {
       bool isAuthenticated = _Login.authenticate(email, password);
       if (isAuthenticated) {
@@ -89,6 +91,7 @@ class AuthService {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(_tokenKey, _token!);
         _viewToken(prefs);
+        onSuccess?.call();
       }
       return true;
     } on LoginException {
@@ -97,11 +100,13 @@ class AuthService {
   }
 
   /// For logging out and clearing stored token
-  static Future<void> logout() async {
+  static Future<void> logout({VoidCallback? onSuccess}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
     _token = null;
     _viewToken(prefs);
+
+    onSuccess?.call();
   }
 
   static void _viewToken(SharedPreferences prefs) {
