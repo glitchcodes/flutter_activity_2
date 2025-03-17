@@ -24,14 +24,14 @@ class _Page4State extends State<Page4> {
     });
   }
 
-  void _login() {
+  void _login() async {
     _clearErrors();
 
     try {
-      bool isAuthenticated =
-          Login.authenticate(_emailController.text, _passwordController.text);
+      final bool isAuthenticated = await AuthService.login(
+          _emailController.text, _passwordController.text);
 
-      if (isAuthenticated) {
+      if (isAuthenticated && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Login Success"),

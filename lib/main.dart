@@ -5,6 +5,8 @@ import 'package:sample_project/pages/extra_page1.dart';
 import 'package:sample_project/pages/page2.dart';
 import 'package:sample_project/pages/page3.dart';
 import 'package:sample_project/pages/page4.dart';
+import 'package:sample_project/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +35,21 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   int _selectedIndex = 0;
+  bool _isAuthenticated = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isAuthenticated = prefs.containsKey("auth_token");
+    });
+  }
 
   // ROUTER
   static const List<Widget> _widgetOptions = <Widget>[
@@ -41,7 +58,7 @@ class _MainAppState extends State<MainApp> {
     ExtraPage1(), // 1
     Page2(), // 2
     Page3(),
-    Page4(),//
+    Page4(), //
   ];
 
   void _onItemTapped(int index) {
@@ -91,11 +108,14 @@ class _MainAppState extends State<MainApp> {
                 child: Text("", style: TextStyle(color: Colors.white)),
               ),
               ListTile(
-                title: Text('Login',
+                title: Text(_isAuthenticated ? 'Logout' : 'Login',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
                 selected: _selectedIndex == 4,
-                onTap: () {
+                onTap: () async {
+                  if (_isAuthenticated) {
+                    AuthService.logout();
+                  }
                   _onItemTapped(4);
                   Navigator.pop(context);
                 },
@@ -130,7 +150,6 @@ class _MainAppState extends State<MainApp> {
                   Navigator.pop(context);
                 },
               ),
-
             ],
           ),
         ),
